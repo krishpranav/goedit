@@ -18,6 +18,5 @@ jobs:
       with:
         go-version: 1.17
       
-    - name: Get deps
-      steps: |
-        go mod tidy
+    - name: Get Deps
+      run: go mod tidy
