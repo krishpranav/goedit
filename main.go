@@ -47,7 +47,7 @@ type Row struct {
 
 	hl []uint8
 
-	hasUnclosedComment int
+	hasUnclosedComment bool
 }
 
 func enableRawMode() (*unix.Termios, error) {
