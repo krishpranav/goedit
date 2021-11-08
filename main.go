@@ -1089,7 +1089,7 @@ func main() {
 		}
 	}
 
-	editor.SetStatusMessage("HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find")
+	editor.SetStatusMessage("HELP: Ctrl-S - save | Ctrl-Q - quit | Ctrl-F - find")
 
 	for {
 		editor.Render()
