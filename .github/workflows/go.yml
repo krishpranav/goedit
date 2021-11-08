@@ -22,7 +22,7 @@ jobs:
       run: go mod tidy
     
     - name: Build
-      run: ./build.sh
+      run: go build .
   
   build-macos:
     runs-on: macos-latest
@@ -38,5 +38,5 @@ jobs:
       run: go mod tidy
     
     - name: Build
-      run: ./build.sh
+      run: go build .
 
