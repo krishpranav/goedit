@@ -1,3 +1,9 @@
+# system cache and project files
+.DS_Store
+
+goedit
+goedit.zip
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
