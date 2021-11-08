@@ -15,5 +15,13 @@ $ go mod tidy
 $ ./build.sh
 ```
 
+## Usage 
+
+- ./goedit path/tofile.txt
+
+- ctrl-s to save the file
+- ctrl-q to quit goedit 
+- ctrl-f to find the keywords
+
 ## Author:
 - [krishpranav](https://github.com/krishpranav)
