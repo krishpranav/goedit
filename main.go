@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"golang.org/x/sys/unix"
@@ -33,6 +34,20 @@ type Editor struct {
 	quitCounter int
 
 	filename string
+
+	origTermios *unix.Termios
+}
+
+type Row struct {
+	idx int
+
+	chars []rune
+
+	render string
+
+	hl []uint8
+
+	hasUnclosedComment int
 }
 
 func enableRawMode() (*unix.Termios, error) {
@@ -51,4 +66,38 @@ func enableRawMode() (*unix.Termios, error) {
 		return nil, err
 	}
 	return t, nil
+}
+
+func (e *Editor) Init() error {
+	termios, err := enableRawMode()
+	if err != nil {
+		return err
+	}
+	e.origTermios = termios
+	ws, err := unix.IoctlGetWinsize(stdoutfd, unix.TIOCGWINSZ)
+	if err != nil || ws.Col == 0 {
+
+		if _, err = os.Stdout.Write([]byte("\x1b[999C\x1b[999B")); err != nil {
+			return err
+		}
+		if row, col, err := getCursorPosition(); err == nil {
+			e.screenRows = row
+			e.screenCols = col
+			return nil
+		}
+		return err
+	}
+	e.screenRows = int(ws.Row) - 2
+	e.screenCols = int(ws.Col)
+	return nil
+}
+
+func getCursorPosition() (row, col int, err error) {
+	if _, err = os.Stdout.Write([]byte("\x1b[6n")); err != nil {
+		return
+	}
+	if _, err = fmt.Fscanf(os.Stdin, "\x1b[%d;%d", &row, &col); err != nil {
+		return
+	}
+	return
 }
